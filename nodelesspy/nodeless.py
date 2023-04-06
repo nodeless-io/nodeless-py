@@ -1,4 +1,5 @@
 from aiohttp.client import ClientSession
+import json
 
 MAIN_NET = "https://nodeless.io/api/"
 TEST_NET = "https://testnet.nodeless.io/api/"
@@ -21,12 +22,14 @@ class Nodeless:
 
     async def call_api(self, path: str, method: str, body: str) -> str:
         headers = {
-            "Authorization": "Bearer {self._api_key}",
+            "Authorization": f"Bearer {self._api_key}",
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
 
-        print("full url: " + self._base_url + path)
+        print("Call API Url: " + self._base_url + path)
+        print(headers)
+        print(body)
         if method == "GET":
             async with self._session.get(
                 url=self._base_url + path, headers=headers, data=body
@@ -35,19 +38,19 @@ class Nodeless:
                 return result
         elif method == "POST":
             async with self._session.post(
-                url=self._base_url + path, headers=headers, data=body
+                url=self._base_url + path, headers=headers, json=body
             ) as response:
                 result = await response.json()
                 return result
         elif method == "PUT":
             async with self._session.put(
-                url=self._base_url + path, headers=headers, data=body
+                url=self._base_url + path, headers=headers, json=body
             ) as response:
                 result = await response.json()
                 return result
         elif method == "DELETE":
             async with self._session.delete(
-                url=self._base_url + path, headers=headers, data=body
+                url=self._base_url + path, headers=headers, json=body
             ) as response:
                 result = await response.json()
                 return result
@@ -61,9 +64,9 @@ class Nodeless:
         response = await self.call_api(url, "GET", {})
         return response
 
-    async def create_paywall(self, payload: str):
+    async def create_paywall(self, payload: json):
         url = f"v1/paywall"
-        response = await self.call_api(url, "GET", payload)
+        response = await self.call_api(url, "POST", payload)
         return response
 
     async def get_paywall(self, id: str):
@@ -74,11 +77,15 @@ class Nodeless:
         response = await self.call_api(url, "GET", {})
         return response
 
-    ## Paywall requests
-    async def create_paywall_request(self, id: str):
-        url = f"v1/paywall/{id}/request"
-        response = await self.call_api(url, "POST", {})
-        return response
+    async def update_paywall(self, id: str, payload: json):
+      url=f'v1/paywall/{id}'
+      response = await self.call_api(url, 'PUT', payload)
+      return response
+
+    async def delete_paywall(self, id: str):
+      url=f'v1/paywall/{id}'
+      response = await self.call_api(url, 'DELETE', {})
+      return response
 
     ## server info
     async def get_api_status(self):
@@ -87,4 +94,10 @@ class Nodeless:
         """
         url = f"v1/status"
         response = await self.call_api(url, "GET", {})
+        return response
+
+    ## Paywall requests
+    async def create_paywall_request(self, id: str):
+        url = f"v1/paywall/{id}/request"
+        response = await self.call_api(url, "POST", {})
         return response
