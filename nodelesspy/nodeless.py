@@ -78,14 +78,14 @@ class Nodeless:
         return response
 
     async def update_paywall(self, id: str, payload: json):
-      url=f'v1/paywall/{id}'
-      response = await self.call_api(url, 'PUT', payload)
-      return response
+        url = f"v1/paywall/{id}"
+        response = await self.call_api(url, "PUT", payload)
+        return response
 
     async def delete_paywall(self, id: str):
-      url=f'v1/paywall/{id}'
-      response = await self.call_api(url, 'DELETE', {})
-      return response
+        url = f"v1/paywall/{id}"
+        response = await self.call_api(url, "DELETE", {})
+        return response
 
     ## server info
     async def get_api_status(self):
@@ -96,8 +96,20 @@ class Nodeless:
         response = await self.call_api(url, "GET", {})
         return response
 
-    ## Paywall requests
-    async def create_paywall_request(self, id: str):
-        url = f"v1/paywall/{id}/request"
-        response = await self.call_api(url, "POST", {})
+    ## transactions
+    async def get_all_transactions(self):
+        """
+        Get all transactions
+        """
+        url = f"v1/transaction"
+        response = await self.call_api(url, "GET", {})
+        return response
+
+
+    async def get_transaction(self, id: str):
+        """
+        Get a single transaction
+        """
+        url = f"v1/transaction/{id}"
+        response = await self.call_api(url, "GET", {})
         return response
