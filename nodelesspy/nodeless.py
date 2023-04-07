@@ -8,32 +8,32 @@ TEST_NET = "https://testnet.nodeless.io/api/"
 class Nodeless:
     def __init__(
         self,
-        api_key: str = None,
+        api_key: str = "",
         session: ClientSession = None,
         testnet: bool = False,
-        version: str = '1',
+        version: str = "1",
     ):
         self._api_key = api_key
         self._session = session
-        self._base_url = f'{TEST_NET}v{version}' if testnet else f'{MAIN_NET}v{version}'
+        self._base_url = f"{TEST_NET}v{version}" if testnet else f"{MAIN_NET}v{version}"
 
     @property
     def api_key(self):
         return self._api_key
 
-    async def call_api(self, path: str, method: str, body: str) -> str:
+    async def call_api(self, path: str, method: str, body: dict) -> str:
         headers = {
             "Authorization": f"Bearer {self._api_key}",
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-
         print("Call API Url: " + self._base_url + path)
         print(headers)
         print(body)
+
         if method == "GET":
             async with self._session.get(
-                url=self._base_url + path, headers=headers, data=body
+                url=self._base_url + path, headers=headers, json=body
             ) as response:
                 result = await response.json()
                 return result
@@ -55,6 +55,7 @@ class Nodeless:
             ) as response:
                 result = await response.json()
                 return result
+        return "No request Method specified, please define!"
 
     ## Paywall Requests
     async def create_paywall_request(self, id: str):
@@ -62,7 +63,7 @@ class Nodeless:
         Create a Paywall Request
         """
         url = f"/paywall/{id}/request"
-        response = await self.call_api(url, "POST", {})
+        response = await self.call_api(url, "POST", None)
         return response
 
     async def get_paywall_request(self, id: str, requestId: str):
@@ -70,7 +71,7 @@ class Nodeless:
         Get a Paywall Request
         """
         url = f"/paywall/{id}/request/{requestId}"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response
 
     async def get_paywall_request_status(self, id: str, requestId: str):
@@ -78,33 +79,33 @@ class Nodeless:
         Get Paywall Request Status
         """
         url = f"/paywall/{id}/request/{requestId}/status"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response
 
     ## Paywall Webhooks
     async def get_paywall_webhooks(self, id: str):
         url = f"/paywall/{id}/webhook"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response
 
     async def create_paywall_webhooks(self, id: str):
         url = f"/paywall/{id}/webhook"
-        response = await self.call_api(url, "POST", {})
+        response = await self.call_api(url, "POST", None)
         return response
 
     async def get_paywall_webhook(self, id: str, webhookId: str):
         url = f"/paywall/{id}/webhook/{webhookId}"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response
 
     async def delete_paywall_webhook(self, id: str, webhookId: str):
         url = f"/paywall/{id}/webhook/{webhookId}"
-        response = await self.call_api(url, "DELETE", {})
+        response = await self.call_api(url, "DELETE", None)
         return response
 
     async def update_paywell_webhook(self, id: str, webhookId: str):
         url = f"/paywall/{id}/webhook/{webhookId}"
-        response = await self.call_api(url, "PUT", {})
+        response = await self.call_api(url, "PUT", None)
         return response
 
     ## Paywalls
@@ -112,12 +113,12 @@ class Nodeless:
         """
         Get all the paywalls
         """
-        url = f"/paywall"
-        response = await self.call_api(url, "GET", {})
+        url = "/paywall"
+        response = await self.call_api(url, "GET", None)
         return response
 
-    async def create_paywall(self, payload: json):
-        url = f"/paywall"
+    async def create_paywall(self, payload: dict):
+        url = "/paywall"
         response = await self.call_api(url, "POST", payload)
         return response
 
@@ -126,17 +127,17 @@ class Nodeless:
         Get Paywall by ID
         """
         url = f"/paywall/{id}"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response
 
-    async def update_paywall(self, id: str, payload: json):
+    async def update_paywall(self, id: str, payload: dict):
         url = f"/paywall/{id}"
         response = await self.call_api(url, "PUT", payload)
         return response
 
     async def delete_paywall(self, id: str):
         url = f"/paywall/{id}"
-        response = await self.call_api(url, "DELETE", {})
+        response = await self.call_api(url, "DELETE", None)
         return response
 
     ## server info
@@ -144,12 +145,12 @@ class Nodeless:
         """
         Get the server status
         """
-        url = f"/status"
-        response = await self.call_api(url, "GET", {})
+        url = "/status"
+        response = await self.call_api(url, "GET", None)
         return response
 
     # Store Invoices
-    async def create_store_invoice(self, id: str, payload: json):
+    async def create_store_invoice(self, id: str, payload: dict):
         """
         Create Store Invoice
         """
@@ -162,7 +163,7 @@ class Nodeless:
         Get Store Invoice
         """
         url = f"/store/{id}/invoice/{invoiceId}"
-        response = await self.call_api(url, "POST", {})
+        response = await self.call_api(url, "POST", None)
         return response
 
     async def get_store_invoice_status(self, id: str, invoiceId: str):
@@ -170,7 +171,7 @@ class Nodeless:
         Get Store Invoice Status
         """
         url = f"/store/{id}/invoice/{invoiceId}/status"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response
 
     # Store Webhooks
@@ -179,25 +180,25 @@ class Nodeless:
         Displays a list of webhooks belonging to the store.
         """
         url = f"/store/{id}/webhook"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response
 
-    async def create_store_webhook(self, id: str, payload: json):
+    async def create_store_webhook(self, id: str, payload: dict):
         url = f"/store/{id}/webhook"
         response = await self.call_api(url, "POST", payload)
         return response
 
     async def get_store_webhook(self, id: str, webhookId: str):
         url = f"/store/{id}/webhook/{webhookId}"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response
 
     async def delete_store_webhook(self, id: str, webhookId: str):
         url = f"/store/{id}/webhook/{webhookId}"
-        response = await self.call_api(url, "DELETE", {})
+        response = await self.call_api(url, "DELETE", None)
         return response
 
-    async def update_store_webhook(self, id: str, webhookId: str, payload: json):
+    async def update_store_webhook(self, id: str, webhookId: str, payload: dict):
         url = f"/store/{id}/webhook/{webhookId}"
         response = await self.call_api(url, "PUT", payload)
         return response
@@ -207,8 +208,8 @@ class Nodeless:
         """
         Displays a list of stores belonging to the authenticated user.
         """
-        url = f"/store"
-        response = await self.call_api(url, "GET", {})
+        url = "/store"
+        response = await self.call_api(url, "GET", None)
         return response
 
     async def get_store(self, id: str):
@@ -216,7 +217,7 @@ class Nodeless:
         Displays a store's details.
         """
         url = f"/store/{id}"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response
 
     ## transactions
@@ -224,8 +225,8 @@ class Nodeless:
         """
         Get all transactions
         """
-        url = f"/transaction"
-        response = await self.call_api(url, "GET", {})
+        url = "/transaction"
+        response = await self.call_api(url, "GET", None)
         return response
 
     async def get_transaction(self, id: str):
@@ -233,5 +234,5 @@ class Nodeless:
         Get a single transaction
         """
         url = f"/transaction/{id}"
-        response = await self.call_api(url, "GET", {})
+        response = await self.call_api(url, "GET", None)
         return response

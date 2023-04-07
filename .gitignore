@@ -2,3 +2,4 @@ config.yml
 venv
 *txt
 __pycache__
+UNKNOWN.egg-info
