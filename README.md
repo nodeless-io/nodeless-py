@@ -43,3 +43,12 @@ async def main():
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
 ```
+
+## Build
+
+Build for distribution:
+
+```
+pip install setuptools wheel
+python setup.py sdist bdist_wheel
+```
