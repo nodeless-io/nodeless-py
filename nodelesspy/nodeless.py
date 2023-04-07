@@ -1,5 +1,4 @@
 from aiohttp.client import ClientSession
-import json
 
 MAIN_NET = "https://nodeless.io/api/"
 TEST_NET = "https://testnet.nodeless.io/api/"
@@ -28,8 +27,8 @@ class Nodeless:
             "Accept": "application/json",
         }
         print("Call API Url: " + self._base_url + path)
-        # print(headers)
-        # print(body)
+        print(headers)
+        print(body)
 
         if method == "GET":
             async with self._session.get(
@@ -53,8 +52,9 @@ class Nodeless:
             async with self._session.delete(
                 url=self._base_url + path, headers=headers, json=body
             ) as response:
-                result = await response.json()
-                return result
+                if response.ok:
+                    result = await response.json()
+                    return result
         return "No request Method specified, please define!"
 
     ## Paywall Requests
@@ -163,7 +163,7 @@ class Nodeless:
         Get Store Invoice
         """
         url = f"/store/{id}/invoice/{invoiceId}"
-        response = await self.call_api(url, "POST", None)
+        response = await self.call_api(url, "GET", None)
         return response
 
     async def get_store_invoice_status(self, id: str, invoiceId: str):
@@ -175,7 +175,7 @@ class Nodeless:
         return response
 
     # Store Webhooks
-    async def get_store_webhooks(self):
+    async def get_store_webhooks(self, id: str):
         """
         Displays a list of webhooks belonging to the store.
         """
