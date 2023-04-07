@@ -6,6 +6,15 @@ An asyncio/aiohttp python library of methods for accessing nodeless API.
 
 version at least python3.8
 
+```
+git clone https://github.com/nodeless-io/nodeless-py
+cd pylnbits
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pip install -e .
+```
+
 ## Usage
 
 Replace YOUR_AUTH_KEY with your api key.
@@ -34,8 +43,3 @@ async def main():
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
 ```
-
-## Other
-
-Check linting and formatting
-`pre-commit run -a`

@@ -28,8 +28,8 @@ class Nodeless:
             "Accept": "application/json",
         }
         print("Call API Url: " + self._base_url + path)
-        print(headers)
-        print(body)
+        # print(headers)
+        # print(body)
 
         if method == "GET":
             async with self._session.get(
