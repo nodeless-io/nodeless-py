@@ -18,10 +18,6 @@ async def main():
         node = Nodeless(api_key=api_key, testnet=False, session=session)
         print(f"Nodeless.io api key: {node.api_key}")
 
-        print("\n** Server Info **")
-        status = await node.get_api_status()
-        print("Get API Status: " + json.dumps(status))
-
         print("\n** Get paywalls **")
 
         payload = {"name": "yzfterrucckaksq", "type": "redirect", "price": 1629}
