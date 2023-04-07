@@ -1,5 +1,5 @@
-
 from yaml import safe_load
+
 
 def get_api_from_config(config_file):
     try:

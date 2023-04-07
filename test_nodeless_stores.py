@@ -20,25 +20,21 @@ async def main():
 
         ## Stores
         all_stores = await node.get_stores()
-        print(f'Get All Stores: ' + json.dumps(all_stores))
+        print(f"Get All Stores: " + json.dumps(all_stores))
 
         # assume we have a list of stores for testing.
-        id = all_stores['data'][0]['id']
+        id = all_stores["data"][0]["id"]
         one_store = await node.get_store(id)
-        print(f'Get One Store\'s Details: ' + json.dumps(one_store))
-
+        print(f"Get One Store's Details: " + json.dumps(one_store))
 
         ## Store Webhooks
         payload = {
             "type": "donation_page",
             "url": "https:\/\/www.kuhn.com\/nulla-velit-non-repudiandae-voluptas-deleniti-neque-dolores-dolores",
-            "events": [
-                "expired"
-            ],
+            "events": ["expired"],
             "secret": "voluptates",
-            "status": "active"
+            "status": "active",
         }
-        
 
         ## Store Invoices
         # store_invoice = await node.create_store_invoice()
