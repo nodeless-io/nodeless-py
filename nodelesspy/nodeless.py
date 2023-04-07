@@ -21,41 +21,44 @@ class Nodeless:
         return self._api_key
 
     async def call_api(self, path: str, method: str, body: dict) -> str:
-        headers = {
-            "Authorization": f"Bearer {self._api_key}",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        }
-        print("Call API Url: " + self._base_url + path)
-        print(headers)
-        print(body)
+        try:
+            headers = {
+                "Authorization": f"Bearer {self._api_key}",
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            }
+            print("Call API Url: " + self._base_url + path)
+            print("Method: " + method)
+            # print(headers)
+            # print(body)
 
-        if method == "GET":
-            async with self._session.get(
-                url=self._base_url + path, headers=headers, json=body
-            ) as response:
-                result = await response.json()
-                return result
-        elif method == "POST":
-            async with self._session.post(
-                url=self._base_url + path, headers=headers, json=body
-            ) as response:
-                result = await response.json()
-                return result
-        elif method == "PUT":
-            async with self._session.put(
-                url=self._base_url + path, headers=headers, json=body
-            ) as response:
-                result = await response.json()
-                return result
-        elif method == "DELETE":
-            async with self._session.delete(
-                url=self._base_url + path, headers=headers, json=body
-            ) as response:
-                if response.ok:
+            if method == "GET":
+                async with self._session.get(
+                    url=self._base_url + path, headers=headers, json=body
+                ) as response:
                     result = await response.json()
                     return result
-        return "No request Method specified, please define!"
+            elif method == "POST":
+                async with self._session.post(
+                    url=self._base_url + path, headers=headers, json=body
+                ) as response:
+                    result = await response.json()
+                    return result
+            elif method == "PUT":
+                async with self._session.put(
+                    url=self._base_url + path, headers=headers, json=body
+                ) as response:
+                    result = await response.json()
+                    return result
+            elif method == "DELETE":
+                async with self._session.delete(
+                    url=self._base_url + path, headers=headers, json=body
+                ) as response:
+                    result = await response.json()
+                    return result
+            return "No request Method specified, please define!"
+        except Exception as e:
+            return e
 
     ## Paywall Requests
     async def create_paywall_request(self, id: str):
@@ -88,9 +91,9 @@ class Nodeless:
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def create_paywall_webhooks(self, id: str):
+    async def create_paywall_webhook(self, id: str, payload: dict):
         url = f"/paywall/{id}/webhook"
-        response = await self.call_api(url, "POST", None)
+        response = await self.call_api(url, "POST", payload)
         return response
 
     async def get_paywall_webhook(self, id: str, webhookId: str):
@@ -103,9 +106,9 @@ class Nodeless:
         response = await self.call_api(url, "DELETE", None)
         return response
 
-    async def update_paywell_webhook(self, id: str, webhookId: str):
+    async def update_paywell_webhook(self, id: str, webhookId: str, payload: dict):
         url = f"/paywall/{id}/webhook/{webhookId}"
-        response = await self.call_api(url, "PUT", None)
+        response = await self.call_api(url, "PUT", payload)
         return response
 
     ## Paywalls
@@ -118,24 +121,33 @@ class Nodeless:
         return response
 
     async def create_paywall(self, payload: dict):
+        """
+        Creates a new paywall.
+        """
         url = "/paywall"
         response = await self.call_api(url, "POST", payload)
         return response
 
     async def get_paywall(self, id: str):
         """
-        Get Paywall by ID
+        Displays a paywall's details.
         """
         url = f"/paywall/{id}"
         response = await self.call_api(url, "GET", None)
         return response
 
     async def update_paywall(self, id: str, payload: dict):
+        """
+        Updates a paywall.
+        """
         url = f"/paywall/{id}"
         response = await self.call_api(url, "PUT", payload)
         return response
 
     async def delete_paywall(self, id: str):
+        """
+        Deletes a paywall.
+        """
         url = f"/paywall/{id}"
         response = await self.call_api(url, "DELETE", None)
         return response
@@ -184,21 +196,33 @@ class Nodeless:
         return response
 
     async def create_store_webhook(self, id: str, payload: dict):
+        """
+        Creates a store webhook.
+        """
         url = f"/store/{id}/webhook"
         response = await self.call_api(url, "POST", payload)
         return response
 
     async def get_store_webhook(self, id: str, webhookId: str):
+        """
+        Displays a store webhook's details.
+        """
         url = f"/store/{id}/webhook/{webhookId}"
         response = await self.call_api(url, "GET", None)
         return response
 
     async def delete_store_webhook(self, id: str, webhookId: str):
+        """
+        Deletes a store webhook.
+        """
         url = f"/store/{id}/webhook/{webhookId}"
         response = await self.call_api(url, "DELETE", None)
         return response
 
     async def update_store_webhook(self, id: str, webhookId: str, payload: dict):
+        """
+        Updates a store webhook.
+        """
         url = f"/store/{id}/webhook/{webhookId}"
         response = await self.call_api(url, "PUT", payload)
         return response
