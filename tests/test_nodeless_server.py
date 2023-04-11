@@ -6,7 +6,7 @@ import json
 
 
 """
-Tests for Nodeless SDK
+Tests for Nodeless SDK Server
 """
 
 
