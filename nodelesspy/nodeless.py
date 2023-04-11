@@ -20,17 +20,13 @@ class Nodeless:
     def api_key(self):
         return self._api_key
 
-    async def call_api(self, path: str, method: str, body: dict) -> str:
+    async def call_api(self, path: str, method: str, body: dict) -> dict:
         try:
             headers = {
                 "Authorization": f"Bearer {self._api_key}",
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             }
-            print("Call API Url: " + self._base_url + path)
-            print("Method: " + method)
-            # print(headers)
-            # print(body)
 
             if method == "GET":
                 async with self._session.get(
@@ -61,7 +57,7 @@ class Nodeless:
             return e
 
     ## Paywall Requests
-    async def create_paywall_request(self, id: str):
+    async def create_paywall_request(self, id: str) -> dict:
         """
         Create a Paywall Request
         """
@@ -69,7 +65,7 @@ class Nodeless:
         response = await self.call_api(url, "POST", None)
         return response
 
-    async def get_paywall_request(self, id: str, requestId: str):
+    async def get_paywall_request(self, id: str, requestId: str) -> dict:
         """
         Get a Paywall Request
         """
@@ -77,7 +73,7 @@ class Nodeless:
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def get_paywall_request_status(self, id: str, requestId: str):
+    async def get_paywall_request_status(self, id: str, requestId: str) -> dict:
         """
         Get Paywall Request Status
         """
@@ -86,33 +82,33 @@ class Nodeless:
         return response
 
     ## Paywall Webhooks
-    async def get_paywall_webhooks(self, id: str):
+    async def get_paywall_webhooks(self, id: str) -> dict:
         url = f"/paywall/{id}/webhook"
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def create_paywall_webhook(self, id: str, payload: dict):
+    async def create_paywall_webhook(self, id: str, payload: dict) -> dict:
         url = f"/paywall/{id}/webhook"
         response = await self.call_api(url, "POST", payload)
         return response
 
-    async def get_paywall_webhook(self, id: str, webhookId: str):
+    async def get_paywall_webhook(self, id: str, webhookId: str) -> dict:
         url = f"/paywall/{id}/webhook/{webhookId}"
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def delete_paywall_webhook(self, id: str, webhookId: str):
+    async def delete_paywall_webhook(self, id: str, webhookId: str) -> dict:
         url = f"/paywall/{id}/webhook/{webhookId}"
         response = await self.call_api(url, "DELETE", None)
         return response
 
-    async def update_paywell_webhook(self, id: str, webhookId: str, payload: dict):
+    async def update_paywell_webhook(self, id: str, webhookId: str, payload: dict) -> dict:
         url = f"/paywall/{id}/webhook/{webhookId}"
         response = await self.call_api(url, "PUT", payload)
         return response
 
     ## Paywalls
-    async def get_paywalls(self):
+    async def get_paywalls(self) -> dict:
         """
         Get all the paywalls
         """
@@ -120,7 +116,7 @@ class Nodeless:
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def create_paywall(self, payload: dict):
+    async def create_paywall(self, payload: dict) -> dict:
         """
         Creates a new paywall.
         """
@@ -128,7 +124,7 @@ class Nodeless:
         response = await self.call_api(url, "POST", payload)
         return response
 
-    async def get_paywall(self, id: str):
+    async def get_paywall(self, id: str) -> dict:
         """
         Displays a paywall's details.
         """
@@ -136,7 +132,7 @@ class Nodeless:
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def update_paywall(self, id: str, payload: dict):
+    async def update_paywall(self, id: str, payload: dict) -> dict:
         """
         Updates a paywall.
         """
@@ -144,7 +140,7 @@ class Nodeless:
         response = await self.call_api(url, "PUT", payload)
         return response
 
-    async def delete_paywall(self, id: str):
+    async def delete_paywall(self, id: str) -> dict:
         """
         Deletes a paywall.
         """
@@ -153,7 +149,7 @@ class Nodeless:
         return response
 
     ## server info
-    async def get_api_status(self):
+    async def get_api_status(self) -> dict:
         """
         Get the server status
         """
@@ -162,7 +158,7 @@ class Nodeless:
         return response
 
     # Store Invoices
-    async def create_store_invoice(self, id: str, payload: dict):
+    async def create_store_invoice(self, id: str, payload: dict) -> dict:
         """
         Create Store Invoice
         """
@@ -170,7 +166,7 @@ class Nodeless:
         response = await self.call_api(url, "POST", payload)
         return response
 
-    async def get_store_invoice(self, id: str, invoiceId: str):
+    async def get_store_invoice(self, id: str, invoiceId: str) -> dict:
         """
         Get Store Invoice
         """
@@ -178,7 +174,7 @@ class Nodeless:
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def get_store_invoice_status(self, id: str, invoiceId: str):
+    async def get_store_invoice_status(self, id: str, invoiceId: str) -> dict:
         """
         Get Store Invoice Status
         """
@@ -187,7 +183,7 @@ class Nodeless:
         return response
 
     # Store Webhooks
-    async def get_store_webhooks(self, id: str):
+    async def get_store_webhooks(self, id: str) -> dict:
         """
         Displays a list of webhooks belonging to the store.
         """
@@ -195,7 +191,7 @@ class Nodeless:
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def create_store_webhook(self, id: str, payload: dict):
+    async def create_store_webhook(self, id: str, payload: dict) -> dict:
         """
         Creates a store webhook.
         """
@@ -203,7 +199,7 @@ class Nodeless:
         response = await self.call_api(url, "POST", payload)
         return response
 
-    async def get_store_webhook(self, id: str, webhookId: str):
+    async def get_store_webhook(self, id: str, webhookId: str) -> dict:
         """
         Displays a store webhook's details.
         """
@@ -211,7 +207,7 @@ class Nodeless:
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def delete_store_webhook(self, id: str, webhookId: str):
+    async def delete_store_webhook(self, id: str, webhookId: str) -> dict:
         """
         Deletes a store webhook.
         """
@@ -219,7 +215,7 @@ class Nodeless:
         response = await self.call_api(url, "DELETE", None)
         return response
 
-    async def update_store_webhook(self, id: str, webhookId: str, payload: dict):
+    async def update_store_webhook(self, id: str, webhookId: str, payload: dict) -> dict:
         """
         Updates a store webhook.
         """
@@ -228,7 +224,7 @@ class Nodeless:
         return response
 
     ## Stores
-    async def get_stores(self):
+    async def get_stores(self) -> dict:
         """
         Displays a list of stores belonging to the authenticated user.
         """
@@ -236,7 +232,7 @@ class Nodeless:
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def get_store(self, id: str):
+    async def get_store(self, id: str) -> dict:
         """
         Displays a store's details.
         """
@@ -245,7 +241,7 @@ class Nodeless:
         return response
 
     ## transactions
-    async def get_all_transactions(self):
+    async def get_all_transactions(self) -> dict:
         """
         Get all transactions
         """
@@ -253,7 +249,7 @@ class Nodeless:
         response = await self.call_api(url, "GET", None)
         return response
 
-    async def get_transaction(self, id: str):
+    async def get_transaction(self, id: str) -> dict:
         """
         Get a single transaction
         """
