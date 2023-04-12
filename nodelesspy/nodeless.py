@@ -102,7 +102,7 @@ class Nodeless:
         response = await self.call_api(url, "DELETE", None)
         return response
 
-    async def update_paywell_webhook(self, id: str, webhookId: str, payload: dict) -> dict:
+    async def update_paywall_webhook(self, id: str, webhookId: str, payload: dict) -> dict:
         url = f"/paywall/{id}/webhook/{webhookId}"
         response = await self.call_api(url, "PUT", payload)
         return response
