@@ -52,7 +52,7 @@ async def main():
         print(f'\nAll Store Webhooks: ' + json.dumps(all_hooks))
 
         payload = {
-            "type": "inbox",
+            "type": "store",
             "url": "https://nodeless.one",
             "events": ["new"],
             "secret": "WgkicYipQhFARZocnhJX",
@@ -94,11 +94,10 @@ async def main():
         create_invoice = await node.create_store_invoice(id, payload)
         print(f'\nCreate Store Invoice: ' + json.dumps(create_invoice))
 
-        invoiceId = "78920847-2b13-48e3-8272-9faf13eb0da7"
+        invoiceId = create_invoice["data"]["id"]
         get_invoice = await node.get_store_invoice(id, invoiceId)
         print(f'\nGet Store Invoice: ' + json.dumps(get_invoice))
 
-        # {"message": "Server Error"}
         invoice_status = await node.get_store_invoice_status(id, invoiceId)
         print(f'\nInvoice Status: ' + json.dumps(invoice_status))
 
