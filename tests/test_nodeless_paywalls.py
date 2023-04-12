@@ -1,6 +1,6 @@
 import asyncio
 from aiohttp.client import ClientSession
-from nodelesspy.nodeless import Nodeless
+from nodelessio.nodeless import Nodeless
 
 from utils import get_api_from_config
 import json

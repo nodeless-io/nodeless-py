@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "nodelesspy"
+name = "nodelessio"
 version = "0.0.1"
-description = "Python library for nodelesspy."
+description = "Python library for nodeless-py."
 authors = ["bitkarrot <me@bitkarrot.co>"]
 license = "MIT"
 

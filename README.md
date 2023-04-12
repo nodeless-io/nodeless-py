@@ -30,7 +30,7 @@ Replace YOUR_AUTH_KEY with your api key.
 ```
 import asyncio
 from aiohttp.client import ClientSession
-from nodelesspy.nodeless import Nodeless
+from nodelessio.nodeless import Nodeless
 import json
 
 async def main():
