@@ -4,11 +4,19 @@ An asyncio/aiohttp python library of methods for accessing nodeless API.
 
 ## Getting Started
 
-version at least python3.8
+Use version at least python3.8
+
+Install from pip
+
+```
+pip install nodeless
+```
+
+Or install locally
 
 ```
 git clone https://github.com/nodeless-io/nodeless-py
-cd pylnbits
+cd nodeless-py
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
