@@ -27,7 +27,7 @@ pip install -e .
 
 Replace YOUR_AUTH_KEY with your api key.
 
-```
+```py
 import asyncio
 from aiohttp.client import ClientSession
 from nodelessio.nodeless import Nodeless
